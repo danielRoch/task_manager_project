@@ -23,20 +23,21 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Text('Singed In as ${user.email!}'),
           TextButton(
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.lightBlue,
+            style: TextButton.styleFrom(
+              backgroundColor: Colors.lightBlue,
+            ),
+            onPressed: () async {
+              await _auth.signout();
+            },
+            child: const Text(
+              'Sign out',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
               ),
-              onPressed: () async {
-                await _auth.signout();
-              },
-              child: const Text(
-                'Sign out',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15,
-                ),
-              ))
+            ),
+          ),
         ],
       )),
     );

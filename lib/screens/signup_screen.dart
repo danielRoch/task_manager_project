@@ -2,31 +2,46 @@ import 'package:flutter/material.dart';
 
 import '../auth.dart';
 
-class LoginScreen extends StatefulWidget {
-  final VoidCallback showSignUpScreen;
-  const LoginScreen({super.key, required this.showSignUpScreen});
+class SignUpScreen extends StatefulWidget {
+  final VoidCallback showLoginScreen;
+  const SignUpScreen({super.key, required this.showLoginScreen});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   // Text Controllers
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+
+  // Auth
   final AuthService _auth = AuthService();
 
-  Future signIn() async {
-    await _auth.signInWithEmailAndPassword(
+  Future signUp() async {
+    if (passwordConfirmed()) {}
+
+    await _auth.signUpWithEmailAndPassword(
       _emailController.text.trim(),
       _passwordController.text.trim(),
     );
+  }
+
+  bool passwordConfirmed() {
+    if (_passwordController.text.trim() ==
+        _confirmPasswordController.text.trim()) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -49,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 10),
                 const Text(
-                  'Welcome Back',
+                  'Welcome, Sign Up below',
                   style: TextStyle(
                     fontSize: 20,
                   ),
@@ -103,11 +118,35 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 const SizedBox(height: 10),
 
+                // Confirm Password Input
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: TextField(
+                    controller: _confirmPasswordController,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.white),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.lightBlue),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      hintText: 'Confirm Password',
+                      fillColor: Colors.grey[200],
+                      filled: true,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 10),
+
                 // Sign In Button
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: GestureDetector(
-                    onTap: signIn,
+                    onTap: signUp,
                     child: Container(
                       padding: const EdgeInsets.all(15.0),
                       decoration: BoxDecoration(
@@ -116,7 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       child: const Center(
                         child: Text(
-                          'Sign In',
+                          'Sign Up',
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -135,15 +174,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      'Not a member? ',
+                      'Already a member? ',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     GestureDetector(
-                      onTap: widget.showSignUpScreen,
+                      onTap: widget.showLoginScreen,
                       child: const Text(
-                        'Sign up now',
+                        'Login now',
                         style: TextStyle(
                           color: Colors.blue,
                           fontWeight: FontWeight.bold,
