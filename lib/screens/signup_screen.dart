@@ -20,12 +20,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final AuthService _auth = AuthService();
 
   Future signUp() async {
-    if (passwordConfirmed()) {}
-
-    await _auth.signUpWithEmailAndPassword(
-      _emailController.text.trim(),
-      _passwordController.text.trim(),
-    );
+    if (passwordConfirmed()) {
+      await _auth.signUpWithEmailAndPassword(
+        _emailController.text.trim(),
+        _passwordController.text.trim(),
+      );
+    } else {
+      // TODO: Add error handling
+    }
   }
 
   bool passwordConfirmed() {
