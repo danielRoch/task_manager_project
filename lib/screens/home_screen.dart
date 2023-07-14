@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Singed In as ${user.email!}'),
+            Text('Signed In as ${user.email!}'),
             TextButton(
               style: TextButton.styleFrom(
                 backgroundColor: Colors.lightBlue,
