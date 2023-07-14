@@ -17,29 +17,62 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text('Singed In as ${user.email!}'),
-          TextButton(
-            style: TextButton.styleFrom(
-              backgroundColor: Colors.lightBlue,
-            ),
-            onPressed: () async {
+      appBar: AppBar(
+        foregroundColor: Colors.white,
+        backgroundColor: Colors.lightBlue,
+        actions: [
+          GestureDetector(
+            onTap: () async {
               await _auth.signout();
             },
             child: const Text(
-              'Sign out',
+              'Sign Out',
               style: TextStyle(
-                color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 15,
               ),
             ),
           ),
+          IconButton(
+              onPressed: () async {
+                await _auth.signout();
+              },
+              icon: const Icon(Icons.logout)),
         ],
-      )),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Singed In as ${user.email!}'),
+            TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.lightBlue,
+              ),
+              onPressed: () async {
+                await _auth.signout();
+              },
+              child: const Text(
+                'Sign out',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // TODO: Add form for adding new tasks
+        },
+        backgroundColor: Colors.lightBlue,
+        foregroundColor: Colors.white,
+        tooltip: 'Add New Task',
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }
