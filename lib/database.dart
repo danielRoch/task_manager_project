@@ -1,21 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
 final CollectionReference tasksCollection =
     FirebaseFirestore.instance.collection('tasks');
 
 // Add task
-Future<void> addTask(
-    String title, String description, DateTime dueDate, String status) async {
+Future<void> addTask(String title, String description, String location,
+    DateTime dueDate, bool status) async {
   try {
     await tasksCollection.add({
       'title': title,
       'description': description,
+      'location': location,
       'dueDate': Timestamp.fromDate(dueDate),
-      'status': status,
+      'is_completed': status,
     });
-    print('Task created!');
+    debugPrint('Task created!');
   } catch (e) {
-    print('Error adding task: $e');
+    debugPrint('Error adding task: $e');
   }
 }
 
@@ -26,12 +28,13 @@ Stream<QuerySnapshot> readTasks() {
 
 // Update task
 Future<void> updateTask(String taskId, String title, String description,
-    DateTime dueDate, String status) {
+    String location, DateTime dueDate, bool status) {
   return tasksCollection.doc(taskId).update({
     'title': title,
     'description': description,
+    'location': location,
     'dueDate': Timestamp.fromDate(dueDate),
-    'status': status,
+    'is_completed': status,
   });
 }
 
@@ -39,8 +42,8 @@ Future<void> updateTask(String taskId, String title, String description,
 Future<void> deleteTask(String taskId) async {
   try {
     await tasksCollection.doc(taskId).delete();
-    print('Task deleted!');
+    debugPrint('Task deleted!');
   } catch (e) {
-    print('Error adding task: $e');
+    debugPrint('Error adding task: $e');
   }
 }
