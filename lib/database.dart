@@ -6,12 +6,17 @@ final CollectionReference tasksCollection =
 // Add task
 Future<void> addTask(
     String title, String description, DateTime dueDate, String status) async {
-  await tasksCollection.add({
-    'title': title,
-    'description': description,
-    'dueDate': Timestamp.fromDate(dueDate),
-    'status': status,
-  });
+  try {
+    await tasksCollection.add({
+      'title': title,
+      'description': description,
+      'dueDate': Timestamp.fromDate(dueDate),
+      'status': status,
+    });
+    print('Task created!');
+  } catch (e) {
+    print('Error adding task: $e');
+  }
 }
 
 // Read all tasks
@@ -31,6 +36,11 @@ Future<void> updateTask(String taskId, String title, String description,
 }
 
 // Delete task
-Future<void> deleteTask(String taskId) {
-  return tasksCollection.doc(taskId).delete();
+Future<void> deleteTask(String taskId) async {
+  try {
+    await tasksCollection.doc(taskId).delete();
+    print('Task deleted!');
+  } catch (e) {
+    print('Error adding task: $e');
+  }
 }

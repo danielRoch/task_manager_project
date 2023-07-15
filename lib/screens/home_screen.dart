@@ -219,7 +219,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // TODO: Add form for adding new tasks
+          //Form for adding new tasks
           showTaskModal(context, 'New Task');
         },
         backgroundColor: Colors.lightBlue,
