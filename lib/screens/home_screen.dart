@@ -6,6 +6,7 @@ import 'package:task_manager_project/database.dart';
 // import 'package:intl/intl.dart';
 import 'package:task_manager_project/screens/add_task_screen.dart';
 import 'package:task_manager_project/screens/edit_task_screen.dart';
+import 'package:task_manager_project/screens/task_view_screen.dart';
 
 import '../auth.dart';
 
@@ -56,6 +57,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15.0),
                     child: ListTile(
+                      onTap: () {
+                        // Go to Task View Page to view the additional information about the task
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const TaskViewScreen(),
+                          ),
+                        );
+                      },
                       leading: GestureDetector(
                         onTap: () async {
                           await updateTaskStatus(
@@ -69,13 +80,18 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       title: Text(task['title']),
-                      subtitle: Column(
+                      subtitle: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text('${task['description']}'),
-                          Text(DateFormat('MM/dd/yyyy')
-                              .format(task['dueDate'].toDate())),
-                          Text(task.id),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('${task['description']}'),
+                              Text(DateFormat('MM/dd/yyyy')
+                                  .format(task['dueDate'].toDate())),
+                              Text(task.id),
+                            ],
+                          ),
                         ],
                       ),
                       trailing: PopupMenuButton(
@@ -97,10 +113,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         tooltip: 'Edit/Delete Task',
                         itemBuilder: (context) {
                           return [
+                            // Edit Button
                             const PopupMenuItem(
                               value: 'edit',
                               child: Text("Edit"),
                             ),
+                            // Delete Button
                             const PopupMenuItem(
                               value: 'delete',
                               child: Text("Delete"),
@@ -121,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          //Form for adding new tasks
+          // Form for adding new tasks
           Navigator.push(
             context,
             MaterialPageRoute(

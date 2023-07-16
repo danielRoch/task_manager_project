@@ -52,7 +52,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.grey[200],
+        backgroundColor: Colors.lightBlue,
         centerTitle: true,
         leading: IconButton(
           onPressed: () {
