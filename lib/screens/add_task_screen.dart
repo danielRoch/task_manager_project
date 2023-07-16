@@ -209,6 +209,8 @@ class _TaskManipulationState extends State<TaskManipulation> {
                       _locationController.text,
                       date,
                       _isCompleted!);
+
+                  Navigator.pop(context);
                 },
                 child: const Text(
                   'Submit',
