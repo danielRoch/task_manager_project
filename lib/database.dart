@@ -38,6 +38,13 @@ Future<void> updateTask(String taskId, String title, String description,
   });
 }
 
+// Update task
+Future<void> updateTaskStatus(String taskId, bool status) {
+  return tasksCollection.doc(taskId).update({
+    'is_completed': status,
+  });
+}
+
 // Delete task
 Future<void> deleteTask(String taskId) async {
   try {

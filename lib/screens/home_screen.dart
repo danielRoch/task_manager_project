@@ -56,15 +56,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15.0),
                       child: ListTile(
-                        leading: task['is_completed']
-                            ? const Icon(
-                                Icons.check_box,
-                                color: Colors.lightBlue,
-                              )
-                            : const Icon(
-                                Icons.check_box_outline_blank,
-                                color: Colors.lightBlue,
-                              ),
+                        leading: GestureDetector(
+                          onTap: () async {
+                            await updateTaskStatus(
+                                task.id, !task['is_completed']);
+                          },
+                          child: Icon(
+                            task['is_completed']
+                                ? Icons.check_box
+                                : Icons.check_box_outline_blank,
+                            color: Colors.lightBlue,
+                          ),
+                        ),
                         title: Text(task['title']),
                         subtitle: Text(
                             '${task['description']}\n${DateFormat('MM/dd/yyyy').format(task['dueDate'].toDate())}'),
