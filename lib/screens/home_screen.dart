@@ -53,68 +53,62 @@ class _HomeScreenState extends State<HomeScreen> {
             if (snapshot.hasData) {
               return ListView(
                 children: snapshot.data!.docs.map((task) {
-                  return Center(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                      child: ListTile(
-                        leading: GestureDetector(
-                          onTap: () async {
-                            await updateTaskStatus(
-                                task.id, !task['is_completed']);
-                          },
-                          child: Icon(
-                            task['is_completed']
-                                ? Icons.check_box
-                                : Icons.check_box_outline_blank,
-                            color: Colors.lightBlue,
-                          ),
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                    child: ListTile(
+                      leading: GestureDetector(
+                        onTap: () async {
+                          await updateTaskStatus(
+                              task.id, !task['is_completed']);
+                        },
+                        child: Icon(
+                          task['is_completed']
+                              ? Icons.check_box
+                              : Icons.check_box_outline_blank,
+                          color: Colors.lightBlue,
                         ),
-                        title: Text(task['title']),
-                        subtitle: Text(
-                            '${task['description']}\n${DateFormat('MM/dd/yyyy').format(task['dueDate'].toDate())}'),
-                        trailing: PopupMenuButton(
-                          onSelected: (value) {
-                            if (value == 'edit') {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      EditTaskScreen(task: task),
-                                ),
-                              );
-                            }
-                            if (value == 'delete') {}
-                          },
-                          icon: const Icon(Icons.more_horiz),
-                          tooltip: 'Edit/Delete Task',
-                          itemBuilder: (context) {
-                            return [
-                              PopupMenuItem(
-                                // onTap: () {
-                                //   // Navigate to edit Page
-                                //   Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //       builder: (BuildContext context) =>
-                                //           EditTaskScreen(),
-                                //     ),
-                                //   );
-                                // },
-                                value: 'edit',
-                                child: const Text("Edit"),
-                              ),
-                              PopupMenuItem(
-                                onTap: () {
-                                  deleteTask(task.id);
-                                },
-                                value: 'delete',
-                                child: const Text("Delete"),
-                              ),
-                            ];
-                          },
-                        ),
-                        isThreeLine: true,
                       ),
+                      title: Text(task['title']),
+                      subtitle: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text('${task['description']}'),
+                          Text(DateFormat('MM/dd/yyyy')
+                              .format(task['dueDate'].toDate())),
+                          Text(task.id),
+                        ],
+                      ),
+                      trailing: PopupMenuButton(
+                        onSelected: (value) async {
+                          if (value == 'edit') {
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    EditTaskScreen(task: task),
+                              ),
+                            );
+                          }
+                          if (value == 'delete') {
+                            await deleteTask(task.id);
+                          }
+                        },
+                        icon: const Icon(Icons.more_horiz),
+                        tooltip: 'Edit/Delete Task',
+                        itemBuilder: (context) {
+                          return [
+                            const PopupMenuItem(
+                              value: 'edit',
+                              child: Text("Edit"),
+                            ),
+                            const PopupMenuItem(
+                              value: 'delete',
+                              child: Text("Delete"),
+                            ),
+                          ];
+                        },
+                      ),
+                      isThreeLine: true,
                     ),
                   );
                 }).toList(),

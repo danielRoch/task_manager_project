@@ -23,7 +23,8 @@ Future<void> addTask(String title, String description, String location,
 
 // Read all tasks
 Stream<QuerySnapshot> readTasks() {
-  return tasksCollection.snapshots();
+  // Order by puts the tasks with the earliest dueDates first
+  return tasksCollection.orderBy('dueDate', descending: false).snapshots();
 }
 
 // Update task
