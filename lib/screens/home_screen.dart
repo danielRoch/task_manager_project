@@ -58,12 +58,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 15.0),
                     child: ListTile(
                       onTap: () {
-                        // Go to Task View Page to view the additional information about the task
+                        // Go to Task View Page to view the additional information
+                        // about the task
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                const TaskViewScreen(),
+                            builder: (BuildContext context) => TaskViewScreen(
+                              task: task,
+                            ),
                           ),
                         );
                       },
@@ -73,6 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               task.id, !task['is_completed']);
                         },
                         child: Icon(
+                          // Changes the icon depending on if the task is marked as complete
                           task['is_completed']
                               ? Icons.check_box
                               : Icons.check_box_outline_blank,
