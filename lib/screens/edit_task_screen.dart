@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../database.dart';
+import 'location_lookup_screen.dart';
 
 class EditTaskScreen extends StatefulWidget {
   final QueryDocumentSnapshot task;
@@ -53,6 +54,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.lightBlue,
+        foregroundColor: Colors.white,
         centerTitle: true,
         leading: IconButton(
           onPressed: () {
@@ -123,6 +125,26 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: TextField(
                   controller: _locationController,
+                  readOnly: true,
+
+                  // Take user to new page to look up their locaiton and return
+                  // the resulting location
+                  onTap: () async {
+                    final location = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            const LocationSearchScreen(),
+                      ),
+                    );
+                    setState(() {
+                      // Verify that the value returned from location selection
+                      // is not null
+                      if (location != null) {
+                        _locationController.text = location;
+                      }
+                    });
+                  },
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderSide: const BorderSide(color: Colors.white),

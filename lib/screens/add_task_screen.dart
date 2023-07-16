@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:task_manager_project/database.dart';
+import 'package:task_manager_project/screens/location_lookup_screen.dart';
 
 // import '../auth.dart';
 
@@ -110,6 +111,26 @@ class _TaskManipulationState extends State<TaskManipulation> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: TextField(
+                  readOnly: true,
+
+                  // Take user to new page to look up their locaiton and return
+                  // the resulting location
+                  onTap: () async {
+                    final location = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            const LocationSearchScreen(),
+                      ),
+                    );
+                    setState(() {
+                      // Verify that the value returned from location selection
+                      // is not null
+                      if (location != null) {
+                        _locationController.text = location;
+                      }
+                    });
+                  },
                   controller: _locationController,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(

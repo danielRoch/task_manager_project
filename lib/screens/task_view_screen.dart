@@ -2,6 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../auth.dart';
+import '../database.dart';
+import 'edit_task_screen.dart';
+
 class TaskViewScreen extends StatefulWidget {
   final QueryDocumentSnapshot task;
   const TaskViewScreen({super.key, required this.task});
@@ -11,6 +15,8 @@ class TaskViewScreen extends StatefulWidget {
 }
 
 class _TaskViewScreenState extends State<TaskViewScreen> {
+  final AuthService _auth = AuthService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,9 +24,40 @@ class _TaskViewScreenState extends State<TaskViewScreen> {
       appBar: AppBar(
         title: Text(
           widget.task['title'],
-          style: const TextStyle(color: Colors.white),
         ),
+        actions: [
+          // Edit Task
+          IconButton(
+            onPressed: () async {
+              await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      EditTaskScreen(task: widget.task),
+                ),
+              );
+            },
+            icon: const Icon(Icons.edit),
+          ),
+
+          // Delete Task
+          IconButton(
+            onPressed: () async {
+              await deleteTask(widget.task.id);
+            },
+            icon: const Icon(Icons.delete),
+          ),
+
+          // Sign Out
+          IconButton(
+            onPressed: () async {
+              await _auth.signout();
+            },
+            icon: const Icon(Icons.logout),
+          ),
+        ],
         centerTitle: true,
+        foregroundColor: Colors.white,
         backgroundColor: Colors.lightBlue,
       ),
       body: Padding(
