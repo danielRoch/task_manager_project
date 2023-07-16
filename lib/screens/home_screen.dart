@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:task_manager_project/database.dart';
 // import 'package:intl/intl.dart';
 import 'package:task_manager_project/screens/add_task_screen.dart';
+import 'package:task_manager_project/screens/edit_task_screen.dart';
 
 import '../auth.dart';
 
@@ -72,12 +73,33 @@ class _HomeScreenState extends State<HomeScreen> {
                         subtitle: Text(
                             '${task['description']}\n${DateFormat('MM/dd/yyyy').format(task['dueDate'].toDate())}'),
                         trailing: PopupMenuButton(
+                          onSelected: (value) {
+                            if (value == 'edit') {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      EditTaskScreen(task: task),
+                                ),
+                              );
+                            }
+                            if (value == 'delete') {}
+                          },
                           icon: const Icon(Icons.more_horiz),
                           tooltip: 'Edit/Delete Task',
                           itemBuilder: (context) {
                             return [
                               PopupMenuItem(
-                                onTap: () {},
+                                // onTap: () {
+                                //   // Navigate to edit Page
+                                //   Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //       builder: (BuildContext context) =>
+                                //           EditTaskScreen(),
+                                //     ),
+                                //   );
+                                // },
                                 value: 'edit',
                                 child: const Text("Edit"),
                               ),
@@ -92,9 +114,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                         ),
                         isThreeLine: true,
-                        onLongPress: () {
-                          task.reference.delete();
-                        },
                       ),
                     ),
                   );
