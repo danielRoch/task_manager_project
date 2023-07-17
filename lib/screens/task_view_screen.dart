@@ -78,12 +78,12 @@ class _TaskViewScreenState extends State<TaskViewScreen> {
         backgroundColor: Colors.lightBlue,
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 15.0),
+        padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10.0),
         child: SingleChildScrollView(
           child: Center(
             child: Column(
               children: [
-                const SizedBox(height: 10.0),
+                const SizedBox(height: 7.50),
 
                 // Title
                 Container(
@@ -282,6 +282,7 @@ class _TaskViewScreenState extends State<TaskViewScreen> {
                 ),
                 const SizedBox(height: 10.0),
 
+                // Weather
                 FutureBuilder<Weather>(
                   future: WeatherApi.getWeather(
                     location: widget.task['location'],
@@ -297,21 +298,57 @@ class _TaskViewScreenState extends State<TaskViewScreen> {
                       return Text('Error: {$snapshot.error}');
                     } else {
                       final weatherData = snapshot.data;
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Average Temp (F): ${weatherData!.degrees.toString()}',
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(10.0),
                           ),
-                          Text(
-                            'Condition: ${weatherData.description}',
+                          child: InputDecorator(
+                            decoration: InputDecoration(
+                              label: const Text(
+                                'Weather',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 18.0,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide: const BorderSide(
+                                  width: 3,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Average Temp (F): ${weatherData!.degrees.toString()}',
+                                  style: const TextStyle(
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                ),
+                                Text(
+                                  'Weather: ${weatherData.description}',
+                                  style: const TextStyle(
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                ),
+                                Image.network(
+                                  'https:${weatherData.icon}',
+                                  width: 64,
+                                  height: 64,
+                                ),
+                              ],
+                            ),
                           ),
-                          Image.network(
-                            'https:${weatherData.icon}',
-                            width: 50,
-                            height: 50,
-                          ),
-                        ],
+                        ),
                       );
                     }
                   },
