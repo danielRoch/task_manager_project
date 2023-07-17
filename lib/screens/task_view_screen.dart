@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:task_manager_project/custom_page_route.dart';
 
 import '../api/weather_api.dart';
 import '../database.dart';
@@ -55,9 +56,9 @@ class _TaskViewScreenState extends State<TaskViewScreen> {
             onPressed: () async {
               await Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                      EditTaskScreen(task: widget.task),
+                CustomSlidePageRoute(
+                  child: EditTaskScreen(task: widget.task),
+                  direction: AxisDirection.down,
                 ),
               );
             },

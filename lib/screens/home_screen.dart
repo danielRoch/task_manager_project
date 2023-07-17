@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:task_manager_project/custom_page_route.dart';
 import 'package:task_manager_project/database.dart';
 // import 'package:intl/intl.dart';
 import 'package:task_manager_project/screens/add_task_screen.dart';
@@ -78,10 +79,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         // about the task
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) => TaskViewScreen(
+                          // Custom Slide Transition
+                          CustomSlidePageRoute(
+                            child: TaskViewScreen(
                               task: task,
                             ),
+                            direction: AxisDirection.right,
                           ),
                         );
                       },
@@ -122,9 +125,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           if (value == 'edit') {
                             await Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    EditTaskScreen(task: task),
+                              CustomSlidePageRoute(
+                                child: EditTaskScreen(task: task),
+                                direction: AxisDirection.left,
                               ),
                             );
                           }
@@ -169,8 +172,9 @@ class _HomeScreenState extends State<HomeScreen> {
           // Form for adding new tasks
           Navigator.push(
             context,
-            MaterialPageRoute(
-              builder: (BuildContext context) => const TaskManipulation(),
+            CustomSlidePageRoute(
+              child: const TaskManipulation(),
+              direction: AxisDirection.up,
             ),
           );
         },
