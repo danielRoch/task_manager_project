@@ -24,6 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[300], // Page Background
       appBar: AppBar(
         foregroundColor: Colors.white,
         backgroundColor: Colors.lightBlue,
@@ -92,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               Text('${task['description']}'),
                               Text(DateFormat('MM/dd/yyyy')
                                   .format(task['dueDate'].toDate())),
-                              Text(task.id),
+                              Text(task['location']),
                             ],
                           ),
                         ],

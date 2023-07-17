@@ -42,17 +42,18 @@ class _LocationSearchScreenState extends State<LocationSearchScreen> {
     return Scaffold(
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
+        foregroundColor: Colors.white,
         backgroundColor: Colors.lightBlue,
         centerTitle: true,
         title: const Text(
-          'Places AutoComplete',
-          style: TextStyle(color: Colors.white),
+          'Location Lookup',
         ),
       ),
       body: Column(children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextField(
+            autofocus: true,
             controller: _searchLocationController,
             onChanged: (value) => _autocompleteSearch(value),
 
@@ -79,6 +80,7 @@ class _LocationSearchScreenState extends State<LocationSearchScreen> {
               return ListTile(
                 title: Text(_predictions[index].description!),
                 onTap: () {
+                  debugPrint(_predictions[index].placeId);
                   Navigator.pop(context, _predictions[index].description!);
                 },
               );

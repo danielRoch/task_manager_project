@@ -175,6 +175,21 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                       initialDate: widget.task['dueDate'].toDate(),
                       firstDate: DateTime(1950),
                       lastDate: DateTime(2100),
+
+                      // Customize theme of date picker
+                      builder: (context, child) {
+                        return Theme(
+                          data: Theme.of(context).copyWith(
+                              colorScheme: ColorScheme.light(
+                                primary: Colors.lightBlueAccent.shade100,
+                              ),
+                              textButtonTheme: TextButtonThemeData(
+                                  style: TextButton.styleFrom(
+                                foregroundColor: Colors.lightBlue,
+                              ))),
+                          child: child!,
+                        );
+                      },
                     );
 
                     // Cancel clicked
