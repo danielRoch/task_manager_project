@@ -24,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
         _passwordController.text.trim(),
       );
       if (success != null) {
-        showSnackBar('Successfully Signed Up', true);
+        showSnackBar('Successfully Signed In', true);
       }
     } catch (e) {
       showSnackBar(e.toString(), false);
