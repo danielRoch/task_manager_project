@@ -21,6 +21,17 @@ class _HomeScreenState extends State<HomeScreen> {
   final user = FirebaseAuth.instance.currentUser!;
   final AuthService _auth = AuthService();
 
+  showSnackBar(String message, bool success) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        showCloseIcon: true,
+        backgroundColor: success ? Colors.lightGreen : Colors.red,
+        duration: const Duration(seconds: 3),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +54,11 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           IconButton(
               onPressed: () async {
-                await _auth.signout();
+                try {
+                  await _auth.signout();
+                } catch (e) {
+                  showSnackBar(e.toString(), false);
+                }
               },
               icon: const Icon(Icons.logout)),
         ],
@@ -72,8 +87,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                       leading: GestureDetector(
                         onTap: () async {
-                          await updateTaskStatus(
-                              task.id, !task['is_completed']);
+                          try {
+                            await updateTaskStatus(
+                                task.id, !task['is_completed']);
+                          } catch (e) {
+                            showSnackBar(e.toString(), false);
+                          }
                         },
                         child: Icon(
                           // Changes the icon depending on if the task is marked as complete
@@ -110,7 +129,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             );
                           }
                           if (value == 'delete') {
-                            await deleteTask(task.id);
+                            try {
+                              await deleteTask(task.id);
+                            } catch (e) {
+                              showSnackBar(e.toString(), false);
+                            }
                           }
                         },
                         icon: const Icon(Icons.more_horiz),

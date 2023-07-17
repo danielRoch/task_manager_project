@@ -46,6 +46,17 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
     super.initState();
   }
 
+  showSnackBar(String message, bool success) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        showCloseIcon: true,
+        backgroundColor: success ? Colors.lightGreen : Colors.red,
+        duration: const Duration(seconds: 3),
+      ),
+    );
+  }
+
   // Date Picker Defaut Date
   DateTime date = DateTime.now();
 
@@ -252,14 +263,19 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                 ),
                 onPressed: () async {
                   // Create the task in FireStore
-                  await updateTask(
-                      widget.task.id,
-                      _taskController.text,
-                      _descriptionController.text,
-                      _locationController.text,
-                      date,
-                      _isCompleted);
+                  try {
+                    await updateTask(
+                        widget.task.id,
+                        _taskController.text,
+                        _descriptionController.text,
+                        _locationController.text,
+                        date,
+                        _isCompleted);
+                  } catch (e) {
+                    showSnackBar(e.toString(), false);
+                  }
 
+                  // Go back to HomeScreen to view all the tasks
                   Navigator.pop(context);
                 },
                 child: const Text(

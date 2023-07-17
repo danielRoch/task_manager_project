@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../auth.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -14,12 +13,32 @@ class _LoginScreenState extends State<LoginScreen> {
   // Text Controllers
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  // Auth
   final AuthService _auth = AuthService();
 
   Future signIn() async {
-    await _auth.signInWithEmailAndPassword(
-      _emailController.text.trim(),
-      _passwordController.text.trim(),
+    try {
+      var success = await _auth.signInWithEmailAndPassword(
+        _emailController.text.trim(),
+        _passwordController.text.trim(),
+      );
+      if (success != null) {
+        showSnackBar('Successfully Signed Up', true);
+      }
+    } catch (e) {
+      showSnackBar(e.toString(), false);
+    }
+  }
+
+  showSnackBar(String message, bool success) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        showCloseIcon: true,
+        backgroundColor: success ? Colors.lightGreen : Colors.red,
+        duration: const Duration(seconds: 3),
+      ),
     );
   }
 

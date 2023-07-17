@@ -37,6 +37,17 @@ class _TaskManipulationState extends State<TaskManipulation> {
   // Date Picker Defaut Date
   DateTime date = DateTime.now();
 
+  showSnackBar(String message, bool success) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        showCloseIcon: true,
+        backgroundColor: success ? Colors.lightGreen : Colors.red,
+        duration: const Duration(seconds: 3),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -239,13 +250,19 @@ class _TaskManipulationState extends State<TaskManipulation> {
                 ),
                 onPressed: () async {
                   // Create the task in FireStore
-                  await addTask(
+                  try {
+                    await addTask(
                       _taskController.text,
                       _descriptionController.text,
                       _locationController.text,
                       date,
-                      _isCompleted!);
+                      _isCompleted!,
+                    );
+                  } catch (e) {
+                    showSnackBar(e.toString(), false);
+                  }
 
+                  // Go back to the HomeScreen to view all tasks
                   Navigator.pop(context);
                 },
                 child: const Text(

@@ -1,10 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../api/weather_api.dart';
-import '../auth.dart';
 import '../database.dart';
 import '../models/weather.dart';
 import 'edit_task_screen.dart';
@@ -18,8 +16,6 @@ class TaskViewScreen extends StatefulWidget {
 }
 
 class _TaskViewScreenState extends State<TaskViewScreen> {
-  final AuthService _auth = AuthService();
-
   String getApi(DateTime date) {
     // Get time to/from today's date to the task date
     int dateDifference = date.compareTo(DateTime.now());
@@ -53,9 +49,6 @@ class _TaskViewScreenState extends State<TaskViewScreen> {
     return Scaffold(
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
-        // title: Text(
-        //   widget.task['title'],
-        // ),
         actions: [
           // Edit Task
           IconButton(
@@ -77,14 +70,6 @@ class _TaskViewScreenState extends State<TaskViewScreen> {
               await deleteTask(widget.task.id);
             },
             icon: const Icon(Icons.delete),
-          ),
-
-          // Sign Out
-          IconButton(
-            onPressed: () async {
-              await _auth.signout();
-            },
-            icon: const Icon(Icons.logout),
           ),
         ],
         centerTitle: true,

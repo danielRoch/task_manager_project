@@ -21,12 +21,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Future signUp() async {
     if (passwordConfirmed()) {
-      await _auth.signUpWithEmailAndPassword(
-        _emailController.text.trim(),
-        _passwordController.text.trim(),
-      );
+      try {
+        var success = await _auth.signUpWithEmailAndPassword(
+          _emailController.text.trim(),
+          _passwordController.text.trim(),
+        );
+        if (success != null) {
+          showSnackBar('Successfully Signed Up', true);
+        }
+      } catch (e) {
+        showSnackBar(e.toString(), false);
+      }
     } else {
-      // TODO: Add error handling
+      showSnackBar('Passwords do not match', false);
     }
   }
 
@@ -37,6 +44,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
     } else {
       return false;
     }
+  }
+
+  showSnackBar(String message, bool success) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        showCloseIcon: true,
+        backgroundColor: success ? Colors.lightGreen : Colors.red,
+        duration: const Duration(seconds: 3),
+      ),
+    );
   }
 
   @override
@@ -144,7 +162,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                 const SizedBox(height: 10),
 
-                // Sign In Button
+                // Sign Up Button
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: GestureDetector(

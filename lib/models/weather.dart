@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class Weather {
   final double degrees;
   final String description;
