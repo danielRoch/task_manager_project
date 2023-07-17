@@ -327,7 +327,7 @@ class _TaskViewScreenState extends State<TaskViewScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  'Average Temp (F): ${weatherData!.degrees.toString()}',
+                                  'Average Temp: ${weatherData!.degrees.toString()} °F',
                                   style: const TextStyle(
                                     fontSize: 20.0,
                                     fontWeight: FontWeight.w800,
